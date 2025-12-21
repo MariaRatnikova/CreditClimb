@@ -14,6 +14,12 @@ import StudentHomeView from '@/views/student/StudentHomeView.vue'
 import StudentSearchStudentsView from '@/views/student/StudentSearchStudentsView.vue'
 import StudentSettingsView from '@/views/student/StudentSettingsView.vue'
 
+/**
+ * Router-Konfiguration.
+ * - Jede Rollen-Route trägt meta.role (tutor/bafoeg/student)
+ * - beforeEach() fungiert als Role Guard und leitet bei falscher Rolle um
+ * - "/" ist die öffentliche Entry-Route und entscheidet über RoleGateView weiter
+ */
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [

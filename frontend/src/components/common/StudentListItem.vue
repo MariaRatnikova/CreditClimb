@@ -1,4 +1,8 @@
 <script setup>
+
+  /*
+  * StudentListItem = dumb UI Komponente
+  */
     defineProps({
     student: { type: Object, required: true }
     })

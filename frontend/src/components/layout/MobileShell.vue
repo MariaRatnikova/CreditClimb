@@ -1,17 +1,26 @@
 <script setup>
     import { useRouter } from 'vue-router'
 
+
+   /**
+   * MobileShell = wiederverwendbares Layout (App-Bar + Content + Bottom-Navigation).
+   *
+   * Motivation:
+   * - gleiche Mobile-Struktur für Tutor/BAföG/Student
+   * - Views liefern nur ihren Content über den Slot
+   * - Navigation wird aus "base" abgeleitet (z. B. /student oder /bafoeg)
+   */
     const props = defineProps({
-    base: { type: String, required: true },
-    showBack: { type: Boolean, default: false },
-    title: { type: String, default: '' },
+      base: { type: String, required: true },
+      showBack: { type: Boolean, default: false },
+      title: { type: String, default: '' },
     })
 
     const router = useRouter()
     function goBack() {
-    if (window.history.length > 1) router.back()
-    else router.push(props.base + '/home')
-}
+      if (window.history.length > 1) router.back()
+      else router.push(props.base + '/home')
+    }
 </script>
 
 <template>

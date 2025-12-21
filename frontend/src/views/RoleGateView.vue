@@ -6,12 +6,19 @@ import { useAuthStore } from '@/stores/authStore'
 const router = useRouter()
 const auth = useAuthStore()
 
+
+/**
+ * RoleGateView = zentrale Einstiegs-View.
+ *
+ * Aufgabe:
+ * - solange kein echtes Login existiert, eine Default-Rolle setzen (Mock)
+ * - anschließend sofort in den passenden Rollenbereich navigieren
+ */
 onMounted(() => {
     auth.loadFromStorage()
 
     // solange Login noch nicht existiert:
     if (!auth.isAuthenticated) {
-        // Mock default
         auth.setSession({ role: 'bafoeg' })
     }
 
