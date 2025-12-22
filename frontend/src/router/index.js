@@ -34,7 +34,7 @@ const router = createRouter({
     { path: '/bafoeg/search', component: BafoegSearchStudentsView, meta: { role: 'bafoeg' } },
     { path: '/bafoeg/home', component: BafoegSearchStudentsView, meta: { role: 'bafoeg' } },
     { path: '/bafoeg/settings', component: BafoegSearchStudentsView, meta: { role: 'bafoeg' } },
-    { path: '/bafoeg/student/:id', name: 'bafoeg-student', component: BafoegStudentInfoView, props: true },
+    { path: '/bafoeg/student/:id', name: 'bafoeg-student', component: BafoegStudentInfoView, props: true, meta: {role: 'bafoeg'} },
 
     //student
     { path: '/student/home', component: StudentHomeView, meta: { role: 'student' } },

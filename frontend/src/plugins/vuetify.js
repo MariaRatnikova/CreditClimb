@@ -1,16 +1,64 @@
 import 'vuetify/styles'
 import { createVuetify } from 'vuetify'
-
+import '@mdi/font/css/materialdesignicons.css'
 
 /**
- * Vuetify Plugin-Konfiguration.
- *
- * Aktuell minimal gehalten (Default Light Theme).
- * Später könnten hier globale Defaults (z. B. Button Styles), Icons,
- * oder Theme-Farben zentral gepflegt werden.
+ * Globales Vuetify Theme (Single Source of Truth):
+ * - colors: zentrale Farben (werden zu --v-theme-... CSS Variablen)
+ * - defaults: globale Standard-Props für Vuetify Komponenten
  */
 export default createVuetify({
   theme: {
     defaultTheme: 'light',
+    themes: {
+      light: {
+        dark: false,
+        colors: {
+          primary: '#567ea8',
+          secondary: '#93b0d3',
+          background: '#ffffff',
+
+          // Wichtig für „Bars sind weiß“:
+          surface: '#ffffff',
+        },
+      },
+    },
+  },
+
+  icons: {
+    defaultSet: 'mdi',
+  },
+
+  defaults: {
+    VApp: {
+      style: { fontFamily: 'Nunito, sans-serif' },
+    },
+
+    // Top Bar global
+    VAppBar: {
+      color: 'background',
+      elevation: 0,
+      density: 'default',
+      height: 70,
+    },
+
+    // Standard UI
+    VCard: {
+      rounded: 'lg',
+      elevation: 0,
+    },
+    VTextField: {
+      variant: 'outlined',
+      density: 'comfortable',
+      rounded: 'lg',
+    },
+    VSelect: {
+      variant: 'outlined',
+      density: 'comfortable',
+      rounded: 'lg',
+    },
+    VBtn: {
+      rounded: 'lg',
+    },
   },
 })
