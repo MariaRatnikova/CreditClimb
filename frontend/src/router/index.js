@@ -4,15 +4,20 @@ import { useAuthStore } from '@/stores/authStore'
 
 //Tutor
 import TutorSearchStudentsView from '@/views/tutor/TutorSearchStudentsView.vue'
+import TutorHomeView from '@/views/tutor/TutorHomeView.vue'
+import TutorSettingsView from '@/views/tutor/TutorSettingsView.vue'
 
 //Bafoeg
 import BafoegSearchStudentsView from '@/views/bafoeg/BafoegSearchStudentsView.vue'
 import BafoegStudentInfoView from '@/views/bafoeg/BafoegStudentInfoView.vue'
+import BafoegHomeView from '@/views/bafoeg/BafoegHomeView.vue'
+import BafoegSettingsView from '@/views/bafoeg/BafoegSettingsView.vue'
 
 //Student
 import StudentHomeView from '@/views/student/StudentHomeView.vue'
 import StudentSearchStudentsView from '@/views/student/StudentSearchStudentsView.vue'
 import StudentSettingsView from '@/views/student/StudentSettingsView.vue'
+import TutorStudentInfoView from '@/views/tutor/TutorStudentInfoView.vue'
 
 /**
  * Router-Konfiguration.
@@ -27,13 +32,14 @@ const router = createRouter({
 
     //tutor
     { path: '/tutor/search', component: TutorSearchStudentsView, meta: { role: 'tutor' } },
-    { path: '/tutor/home', component: TutorSearchStudentsView, meta: { role: 'tutor' } },
-    { path: '/tutor/settings', component: TutorSearchStudentsView, meta: { role: 'tutor' } },
+    { path: '/tutor/home', component: TutorHomeView, meta: { role: 'tutor' } },
+    { path: '/tutor/settings', component: TutorSettingsView, meta: { role: 'tutor' } },
+    { path: '/tutor/student/:id', name: 'tutor-student', component: TutorStudentInfoView, props: true, meta: {role: 'tutor'} },
 
     //bafoeg
     { path: '/bafoeg/search', component: BafoegSearchStudentsView, meta: { role: 'bafoeg' } },
-    { path: '/bafoeg/home', component: BafoegSearchStudentsView, meta: { role: 'bafoeg' } },
-    { path: '/bafoeg/settings', component: BafoegSearchStudentsView, meta: { role: 'bafoeg' } },
+    { path: '/bafoeg/home', component: BafoegHomeView, meta: { role: 'bafoeg' } },
+    { path: '/bafoeg/settings', component: BafoegSettingsView, meta: { role: 'bafoeg' } },
     { path: '/bafoeg/student/:id', name: 'bafoeg-student', component: BafoegStudentInfoView, props: true, meta: {role: 'bafoeg'} },
 
     //student
@@ -56,8 +62,8 @@ router.beforeEach((to) => {
   if (!requiredRole) return true
 
   if (auth.role !== requiredRole) {
-    if (auth.role === 'tutor') return '/tutor/search'
-    if (auth.role === 'bafoeg') return '/bafoeg/search'
+    if (auth.role === 'tutor') return '/tutor/home'
+    if (auth.role === 'bafoeg') return '/bafoeg/home'
     if (auth.role === 'student') return '/student/home'
     return '/'
   }

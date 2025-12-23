@@ -56,12 +56,12 @@ function setPage(newPage) {
   page.value = safe
 }
 
-/** Jump-to-page input: opened by clicking "…" */
+/** Jump-to-page input: opened byclicking "…" */
 const isPageInput = ref(false)
 const pageInput = ref('')
 
 function toggleJumpInput() {
-  // Toggle Verhalten: erneuter Klick schließt
+  // Toggle: erneuter Klick schließt
   if (isPageInput.value) {
     isPageInput.value = false
     return
@@ -242,48 +242,48 @@ function openStudent(student) {
 </template>
 
 <style scoped>
-.section-title {
-  text-align: center;
-  font-weight: 700;
-  font-size: 1.25rem;
-  color: rgba(0, 0, 0, 0.75);
-}
+  .section-title {
+    text-align: center;
+    font-weight: 700;
+    font-size: 1.25rem;
+    color: rgba(0, 0, 0, 0.75);
+  }
 
-/* Pagination: stable in screen */
-.pagination-row {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-  flex-wrap: nowrap;
-  white-space: nowrap;
-}
+  /* Pagination: stable in screen */
+  .pagination-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    flex-wrap: nowrap;
+    white-space: nowrap;
+  }
 
-.pager-btn {
-  min-width: 32px;
-}
+  .pager-btn {
+    min-width: 32px;
+  }
 
-.page-btn {
-  min-width: 32px;
-  padding: 0 8px;
-}
+  .page-btn {
+    min-width: 32px;
+    padding: 0 8px;
+  }
 
-.page-ellipsis {
-  min-width: 24px;
-  padding: 0 6px;
-}
+  .page-ellipsis {
+    min-width: 24px;
+    padding: 0 6px;
+  }
 
-.page-jump-input {
-  width: 56px;
-}
+  .page-jump-input {
+    width: 56px;
+  }
 
-/* remove number spinners */
-.page-jump-input :deep(input) {
-  -moz-appearance: textfield;
-}
-.page-jump-input :deep(input::-webkit-outer-spin-button),
-.page-jump-input :deep(input::-webkit-inner-spin-button) {
-  -webkit-appearance: none;
-  margin: 0;
-}
+  /* remove number spinners */
+  .page-jump-input :deep(input) {
+    -moz-appearance: textfield;
+  }
+  .page-jump-input :deep(input::-webkit-outer-spin-button),
+  .page-jump-input :deep(input::-webkit-inner-spin-button) {
+    -webkit-appearance: none;
+    margin: 0;
+  }
 </style>

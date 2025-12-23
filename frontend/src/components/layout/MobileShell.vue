@@ -53,7 +53,7 @@ function isActive(tab) {
 
       <v-spacer />
 
-      <!-- Profil -->
+      <!-- Profilbild -->
       <v-btn>
         <v-icon icon="mdi-account-circle-outline" size="40" />
       </v-btn>
@@ -66,7 +66,7 @@ function isActive(tab) {
     </v-main>
 
     <!-- BOTTOM NAV -->
-    <v-bottom-navigation app class="bottom-nav" elevation="0" :height="80">
+    <v-bottom-navigation app class="bottom-nav" elevation="1ß" :height="80">
       <v-btn
         :to="base + '/search'"
         class="nav-btn"
@@ -128,7 +128,7 @@ function isActive(tab) {
     padding-bottom: 10px;
   }
 
-  /* Nav Buttons als “Icon über Text” */
+  /* Nav Button ” */
   .nav-btn {
     min-width: 0;
     flex: 1;
@@ -146,7 +146,7 @@ function isActive(tab) {
     color: rgba(0, 0, 0, 0.35);
   }
 
-  /* Text kleiner */
+  /* Text */
   .nav-label {
     font-size: 0.78rem;
     color: rgba(0, 0, 0, 0.35);
