@@ -175,7 +175,7 @@ function openStudent(student) {
     <div class="pagination-row mt-3">
       <v-btn
         icon="mdi-chevron-left"
-        size="small"
+        size="middle"
         variant="text"
         class="pager-btn"
         :disabled="page === 1"
@@ -185,7 +185,7 @@ function openStudent(student) {
       <v-btn
         v-for="p in pagingModel.trio"
         :key="p"
-        size="small"
+        size="middle"
         class="page-btn"
         :variant="isActivePage(p) ? 'flat' : 'text'"
         :color="isActivePage(p) ? 'primary' : undefined"
@@ -209,7 +209,7 @@ function openStudent(student) {
         />
         <v-btn
           v-else
-          size="small"
+          size="middle"
           variant="text"
           class="page-ellipsis"
           @click="toggleJumpInput"
@@ -220,7 +220,7 @@ function openStudent(student) {
 
       <v-btn
         v-if="pagingModel.showLast"
-        size="small"
+        size="middle"
         class="page-btn"
         :variant="isActivePage(pagingModel.last) ? 'flat' : 'text'"
         :color="isActivePage(pagingModel.last) ? 'primary' : undefined"
@@ -231,7 +231,7 @@ function openStudent(student) {
 
       <v-btn
         icon="mdi-chevron-right"
-        size="small"
+        size="middle"
         variant="text"
         class="pager-btn"
         :disabled="page === pageCount"
@@ -254,7 +254,7 @@ function openStudent(student) {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 6px;
+    gap: 10px;
     flex-wrap: nowrap;
     white-space: nowrap;
   }
@@ -265,12 +265,12 @@ function openStudent(student) {
 
   .page-btn {
     min-width: 32px;
-    padding: 0 8px;
+    padding: 5px 12px;
   }
 
   .page-ellipsis {
-    min-width: 24px;
-    padding: 0 6px;
+    min-width: 40px;
+    padding: 0 px;
   }
 
   .page-jump-input {

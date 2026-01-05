@@ -66,7 +66,7 @@ function isActive(tab) {
     </v-main>
 
     <!-- BOTTOM NAV -->
-    <v-bottom-navigation app class="bottom-nav" elevation="1ß" :height="80">
+    <v-bottom-navigation app  elevation="1ß" :height="80">
       <v-btn
         :to="base + '/search'"
         class="nav-btn"
@@ -93,7 +93,7 @@ function isActive(tab) {
         :class="{ active: isActive('settings') }"
         variant="text"
       >
-        <v-icon icon="mdi-cog-outline" class="nav-icon" />
+      <v-icon icon="mdi-cog-outline" class="nav-icon" />
         <span class="nav-label">Settings</span>
       </v-btn>
     </v-bottom-navigation>
@@ -121,13 +121,6 @@ function isActive(tab) {
     font-size: 1.05rem;
   }
 
-
-  /* BOTTOM NAV */
-  .bottom-nav {
-    border-top: 2px solid rgba(0, 0, 0, 0.05);
-    padding-bottom: 10px;
-  }
-
   /* Nav Button ” */
   .nav-btn {
     min-width: 0;
@@ -137,19 +130,20 @@ function isActive(tab) {
     justify-content: center;
     gap: 4px;
     padding: 8px 0;
-    background: transparent !important;
+    background: rgba(var(--v-theme-surface));
   }
 
   /* Icon */
   .nav-icon {
-    font-size: 32px;
-    color: rgba(0, 0, 0, 0.35);
+    font-size: 40px;
+    color: rgba(var(--v-theme-secondary));
   }
 
   /* Text */
   .nav-label {
     font-size: 0.78rem;
-    color: rgba(0, 0, 0, 0.35);
+    font-weight: 700;
+    color: rgba(var(--v-theme-secondary));
   }
 
   /* Aktiver Tab: nur Icon/Text blau */

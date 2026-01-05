@@ -14,12 +14,10 @@ export default createVuetify({
       light: {
         dark: false,
         colors: {
-          primary: '#567ea8',
+          primary: '#1c3d65',
           secondary: '#93b0d3',
           background: '#ffffff',
-
-          // Wichtig für „Bars sind weiß“:
-          surface: '#ffffff',
+          surface: '#f1f7ff',
         },
       },
     },

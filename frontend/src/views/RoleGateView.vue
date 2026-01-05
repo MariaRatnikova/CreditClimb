@@ -22,8 +22,8 @@ onMounted(() => {
         auth.setSession({ role: 'bafoeg' })
     }
 
-    if (auth.role === 'tutor') router.replace('/tutor/search')
-    else if (auth.role === 'bafoeg') router.replace('/bafoeg/search')
+    if (auth.role === 'tutor') router.replace('/tutor/home')
+    else if (auth.role === 'bafoeg') router.replace('/bafoeg/home')
     else if (auth.role === 'student') router.replace('/student/home')
     else router.replace('/student/home')
 })
