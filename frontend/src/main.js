@@ -1,14 +1,22 @@
-import './assets/main.css'
-
 import { createApp } from 'vue'
-import { createPinia } from 'pinia'
-
 import App from './App.vue'
+
+import vuetify from './plugins/vuetify'
 import router from './router'
 
-const app = createApp(App)
+import { createPinia } from 'pinia'
 
-app.use(createPinia())
-app.use(router)
+/**
+ * Entry-Point der Anwendung.
+ * - Vuetify: UI-Komponenten/Design-System
+ * - Pinia: globaler State (z. B. Auth/Rolle)
+ * - Vue Router: Navigation zwischen Views
+ *
+ **/
+const pinia = createPinia()
 
-app.mount('#app')
+createApp(App)
+  .use(vuetify)
+  .use(pinia)
+  .use(router)
+  .mount('#app')
