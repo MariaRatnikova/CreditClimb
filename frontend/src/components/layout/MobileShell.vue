@@ -66,7 +66,7 @@ function isActive(tab) {
     </v-main>
 
     <!-- BOTTOM NAV -->
-    <v-bottom-navigation app  elevation="1ß" :height="80">
+    <v-bottom-navigation app  elevation="1" :height="80">
       <v-btn
         :to="base + '/search'"
         class="nav-btn"
