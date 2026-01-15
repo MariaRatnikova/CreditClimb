@@ -1,28 +1,34 @@
 <script setup>
 import { useRouter } from 'vue-router'
 
-// Modul-Karte: zeigt Titel, Credits, Attempt, Semester und Grade
+// Props: Modul-Daten + Option, ob Semester angezeigt werden soll
 const props = defineProps({
-  module: { type: Object, required: true }, // erwartet: { title, credits, attempt, grade, semester? }
-  showSemester: { type: Boolean, default: true }, // optional: Semester anzeigen/ausblenden
+  module: { type: Object, required: true },       // erwartet z. B.: { id, name, credits, attempt, grade, semester? }
+  showSemester: { type: Boolean, default: true }, // wenn false → Semester-Zeile wird ausgeblendet
 })
+
 const router = useRouter()
 
+// Navigiert zur Detailseite des Moduls (per ID)
 function openModule() {
   router.push(`/student/module/${props.module.id}`)
 }
 </script>
 
 <template>
+  <!-- Ganze Karte ist klickbar und öffnet die Modul-Detailansicht -->
   <div class="module-card" type="button" @click="openModule">
     <div class="module-left">
+      <!-- Modulname (mit Ellipsis, falls zu lang) -->
       <div class="module-title">{{ module.name }}</div>
 
+      <!-- Meta-Infos: ECTS, Versuch, optional Semester -->
       <div class="module-meta">
         <span class="meta-credits">{{ module.credits }} ECTS</span>
         <span class="meta-dot" aria-hidden="true">•</span>
         <span class="meta-attempt">{{ module.attempt }}. attempt</span>
 
+        <!-- Semester wird nur angezeigt, wenn showSemester true ist und semester vorhanden ist -->
         <template v-if="showSemester && module.semester !== undefined && module.semester !== null">
           <span class="meta-dot" aria-hidden="true">•</span>
           <span class="meta-semester">{{ module.semester }}. semester</span>
@@ -30,16 +36,18 @@ function openModule() {
       </div>
     </div>
 
+    <!-- Rechte Seite: Status (done) hängt davon ab, ob eine Note existiert -->
     <div class="module-right" :class="{ done: module.grade !== null && module.grade !== undefined }">
       <div class="check" aria-hidden="true">✓</div>
+
+      <!-- Note wird mit Komma angezeigt; falls keine Note vorhanden → Strich -->
       <div class="grade">
         {{ module.grade !== null && module.grade !== undefined ? String(module.grade).replace('.', ',') : '—' }}
       </div>
     </div>
-
   </div>
-
 </template>
+
 
 <style scoped>
 .module-card{
@@ -47,7 +55,7 @@ function openModule() {
   align-items: stretch;
   justify-content: space-between;
   border-radius: 11px;
-  background: #C6DEFF; /* светло-голубой */
+  background: #C6DEFF; 
   box-shadow: 0 3px 4px 0 rgba(0, 0, 0, 0.18);
   overflow: hidden;
 }

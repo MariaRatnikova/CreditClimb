@@ -1,4 +1,4 @@
-// Testdaten für alle Semester inkl. Module (Informatik) – alles auf Englisch, Kommentare auf Deutsch
+
 // Aktuelles Semester (Mock)
 export const APP_DEFAULTS = {
     currentSemester: 5,
