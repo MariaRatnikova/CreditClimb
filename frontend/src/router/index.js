@@ -34,18 +34,22 @@ const router = createRouter({
     { path: '/tutor/search', component: TutorSearchStudentsView, meta: { role: 'tutor' } },
     { path: '/tutor/home', component: TutorHomeView, meta: { role: 'tutor' } },
     { path: '/tutor/settings', component: TutorSettingsView, meta: { role: 'tutor' } },
-    { path: '/tutor/student/:id', name: 'tutor-student', component: TutorStudentInfoView, props: true, meta: {role: 'tutor'} },
+    { path: '/tutor/student/:id', name: 'tutor-student', component: TutorStudentInfoView, props: true, meta: { role: 'tutor' } },
 
     //bafoeg
     { path: '/bafoeg/search', component: BafoegSearchStudentsView, meta: { role: 'bafoeg' } },
     { path: '/bafoeg/home', component: BafoegHomeView, meta: { role: 'bafoeg' } },
     { path: '/bafoeg/settings', component: BafoegSettingsView, meta: { role: 'bafoeg' } },
-    { path: '/bafoeg/student/:id', name: 'bafoeg-student', component: BafoegStudentInfoView, props: true, meta: {role: 'bafoeg'} },
+    { path: '/bafoeg/student/:id', name: 'bafoeg-student', component: BafoegStudentInfoView, props: true, meta: { role: 'bafoeg' } },
 
     //student
     { path: '/student/home', component: StudentHomeView, meta: { role: 'student' } },
     { path: '/student/search', component: StudentSearchStudentsView, meta: { role: 'student' } },
     { path: '/student/settings', component: StudentSettingsView, meta: { role: 'student' } },
+    { path: '/student/semester/:semesterId', name: 'student-semester-overview', component: () => import('@/views/student/SemesterOverview.vue'), },
+    {
+      path: '/student/module/:id', name: 'StudentModuleInfo', component: () => import('@/views/student/ModuleInfoView.vue'), props: true,
+    }
   ],
 })
 
