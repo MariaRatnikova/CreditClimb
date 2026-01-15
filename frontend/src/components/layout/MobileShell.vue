@@ -9,6 +9,7 @@ const props = defineProps({
   base: { type: String, required: true },
   showBack: { type: Boolean, default: false },
   title: { type: String, default: '' },
+ 
 })
 
 const router = useRouter()
