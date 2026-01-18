@@ -9,13 +9,18 @@ import bg from '@/assets/mainBackground.png'
 import { useRouter } from 'vue-router'
 
 // Vue Composition API: Reaktivität + Lifecycle Hooks
-import { ref, computed, onMounted, onBeforeUnmount } from 'vue'
+import { ref, computed, reactive, onMounted, onBeforeUnmount } from 'vue'
+
 
 // Statische Semesterdaten + App-Defaults (z. B. aktuelles Semester, Default-Ziele)
 import { semestersData, APP_DEFAULTS } from '@/data/semestersData'
 
 // Card-Komponente für ein Modul
 import ModuleCard from '@/components/common/ModuleCard.vue'
+
+import { buildEctsComparisonChart } from '@/utils/credits'
+
+
 
 // Store importiert, aktuell aber im Code nicht verwendet (kann entfernt werden, wenn nicht geplant)
 import { useGoalsStore } from '@/stores/goalsStore'
@@ -220,6 +225,16 @@ const semesterAverages = computed(() => calcSemesterAverages(semestersData))
 const chart = computed(() =>
   buildLineChartData(semesterAverages.value, 260, 120, 18)
 )
+
+const ectsChart = computed(() => buildEctsComparisonChart(semestersData, {
+  width: 320,
+  height: 140,
+  padding: 18,
+}))
+
+
+const chartPoints = computed(() => ectsChart.value.pointsAttr)
+const chartPointObjects = computed(() => ectsChart.value.points)
 </script>
 
 
@@ -229,7 +244,6 @@ const chart = computed(() =>
     <MobileShell base="/student">
       <!-- Hero-Höhe wird dynamisch (Shrink beim Scrollen) gesetzt -->
       <div class="page" :style="{ '--hero-h': heroHeight + 'px' }">
-       
         <section class="hero">
           <!-- Semester-Buttons werden beim Scrollen ausgeblendet -->
           <div class="semester-list" :class="{ hidden: hideButtons }">
@@ -262,14 +276,15 @@ const chart = computed(() =>
         </section>
 
         <section class="sheet">
-          <!-- „Handle“ als visuelles Element für das Sheet -->
+          <!-- Kleine Griff-/Handle-Leiste als visueller Hinweis: das Sheet kann „gezogen“/gescrollt werden -->
           <div class="sheet-handle" />
 
+          <!-- Überschrift: wird nur angezeigt, wenn currentSemester existiert -->
           <h2 v-if="currentSemester" class="sheet-title">
             {{ currentSemester.semester }}. Semester
           </h2>
 
-          <!-- Module des aktuellen Semesters -->
+          <!-- Modulliste des aktuellen Semesters (nur rendern, wenn currentSemester vorhanden ist) -->
           <div v-if="currentSemester" class="modules">
             <ModuleCard
               v-for="m in currentSemester.modules"
@@ -279,9 +294,10 @@ const chart = computed(() =>
             />
           </div>
 
+          <!-- Bereich: Ziele für das Semester -->
           <h3 class="sheet-title-h3">Semester goals</h3>
 
-          <!-- Ziele: Target Grade + Credits pro Semester -->
+          <!-- Zielwerte-Karte: Target Grade + Credits pro Semester (nur wenn currentSemester existiert) -->
           <div class="stats-card" v-if="currentSemester">
             <div class="stats-left">
               <p class="stats-left-label">Target grade</p>
@@ -289,20 +305,81 @@ const chart = computed(() =>
                 {{ targetGrade !== null ? String(targetGrade).replace('.', ',') : '—' }}
               </p>
             </div>
-            
+
             <div class="stats-right">
               <p class="stats-right-label">Credits per semester</p>
               <p class="stats-right-value">{{ creditsGoal }} ECTS</p>
             </div>
           </div>
 
+          <!-- Bereich: Statistiken -->
           <h3 class="sheet-title-h3">Statistics</h3>
 
-          <!-- Platzhalter für Statistik-Block (z. B. Durchschnitt / Chart) -->
           <div class="avarage-stats">
-            <div class="avarage-stats-card">
-              <div class="avarage-stats-left"></div>
+            <div class="avarage-stats-left">
+              <div class="avg-circle">
+                <span class="avg-number">
+                  {{ overallAvg !== null ? String(overallAvg).replace('.', ',') : '—' }}
+                </span>
+              </div>
+              <div class="avg-label">Average Grade</div>
             </div>
+
+            <div class="avarage-stats-right">
+              <div class="chart-title">Semester average</div>
+
+              <svg
+                class="avg-chart"
+                :viewBox="`0 0 260 120`"
+                role="img"
+                aria-label="Semester average chart"
+              >
+                <path :d="chart.pathD" fill="none" stroke="rgba(255,255,255,0.9)" stroke-width="3" />
+
+                <g v-for="p in chart.points" :key="p.semester">
+                  <circle :cx="p.x" :cy="p.y" r="4" fill="rgba(255,255,255,0.95)" />
+                  <text
+                    :x="p.x"
+                    :y="p.y - 10"
+                    text-anchor="middle"
+                    font-size="12"
+                    fill="rgba(255,255,255,0.95)"
+                    font-weight="700"
+                  >
+                    {{ String(p.avg).replace('.', ',') }}
+                  </text>
+                </g>
+              </svg>
+            </div>
+          </div>
+
+          <!-- ECTS-Fortschritt: Vergleich/Verlauf als SVG-Polyline -->
+          <div class="ects-card">
+            <div class="ects-title">ECTS Progress</div>
+
+            <svg class="ects-chart" viewBox="0 0 320 140" preserveAspectRatio="none">
+              <polyline
+                :points="chartPoints"
+                fill="none"
+                stroke="rgba(42,84,129,0.55)"
+                stroke-width="3"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+
+              <template v-for="(p, i) in chartPointObjects" :key="i">
+                <text
+                  :x="p.x"
+                  :y="p.y - 8"
+                  text-anchor="middle"
+                  font-size="14"
+                  font-weight="700"
+                  fill="rgba(0,0,0,0.65)"
+                >
+                  {{ p.value }}
+                </text>
+              </template>
+            </svg>
           </div>
         </section>
       </div>
@@ -327,6 +404,7 @@ const chart = computed(() =>
 
 .page {
   --sheet-overlap: 24px;
+  
 }
 
 
@@ -511,15 +589,84 @@ font-weight: 700;
   font-weight: 700;
 }
 .stats-right-value{
-color: #000;
-text-align: center;
-font-size: 32px;
-font-weight: 700;
+  color: #000;
+  text-align: center;
+  font-size: 32px;
+  font-weight: 700;
 }
 .avarage-stats{
- border-radius: 17px;
-background: #567EA8;
-
-
+  border-radius: 17px;
+  background: #567EA8;
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;     
+  overflow: hidden; 
+  margin-top: 20px;
+  filter: drop-shadow(0 4px 4px rgba(0, 0, 0, 0.25));
 }
+.avarage-stats-left{
+  border-radius: 17px;
+  background: #F1F7FF;
+  display: flex;
+  flex-direction: column;
+  justify-content: center; 
+  align-items: center;  
+  width: 30%;
+  padding: 28px 15px;
+}
+.avarage-stats-right{
+  width: 70%;
+  min-width: 0;
+  padding: 10px;
+}
+
+.avg-number{
+  color: #000;
+  text-align: center;
+  font-size: 24px;
+  font-weight: 700;
+}
+.avg-circle{
+  width: 70px;
+  height:70px;
+  border-radius: 50%;
+  border: 4px solid #FFBD8E;
+  display: flex;
+  flex-direction: column;
+  justify-content: center; 
+  align-items: center;  
+}
+.avg-label{
+  color: #000;
+  text-align: center;
+  font-size: 13px;
+  font-weight: 700;
+  margin-top: 10px ;
+}
+.chart-title{
+  color: #FFF;
+  text-align: center;
+  font-size: 13px;
+  font-style: normal;
+  font-weight: 700;
+  margin-bottom: 20px;
+  }
+
+.ects-card{
+ margin-top: 40px;
+  border-radius: 17px;
+  background: #C6DEFF;
+  box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);
+  display: flex;
+  flex-direction: column;
+  padding: 15px 30px;
+}
+.ects-title{
+  color: #000;
+  text-align: center;
+  font-size: 13px;
+  font-weight: 700;
+  margin-bottom: 23px;
+}
+ 
 </style>
