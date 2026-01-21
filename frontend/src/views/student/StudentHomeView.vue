@@ -20,6 +20,8 @@ import ModuleCard from '@/components/common/ModuleCard.vue'
 
 import { buildEctsComparisonChart } from '@/utils/credits'
 
+import { universityPlan } from '@/data/universityPlan'
+import { loadStudentPlan } from '@/data/studentPlan'
 
 
 // Store importiert, aktuell aber im Code nicht verwendet (kann entfernt werden, wenn nicht geplant)
@@ -235,6 +237,7 @@ const ectsChart = computed(() => buildEctsComparisonChart(semestersData, {
 
 const chartPoints = computed(() => ectsChart.value.pointsAttr)
 const chartPointObjects = computed(() => ectsChart.value.points)
+
 </script>
 
 
@@ -263,7 +266,7 @@ const chartPointObjects = computed(() => ectsChart.value.points)
                   :width="3"
                   color="#2A5481"
                 />
-                <div class="ring-num">{{ s.total }}</div>
+                <div class="ring-num">{{  s.done  }}</div>
               </div>
               <div class="pill-text">{{ s.label }}</div>
             </button>
@@ -450,6 +453,10 @@ const chartPointObjects = computed(() => ectsChart.value.points)
   box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25), 0 4px 4px 0 rgba(0, 0, 0, 0.25);
 }
 
+.sem-pill:active{
+  background-color:#567EA8;
+  transform: translateY(5px);
+}
 
 .sem-pill:nth-child(odd){
   align-self: flex-start;
