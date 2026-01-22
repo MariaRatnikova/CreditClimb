@@ -3,15 +3,16 @@ import { useRouter } from 'vue-router'
 
 // Props: Modul-Daten + Option, ob Semester angezeigt werden soll
 const props = defineProps({
-  module: { type: Object, required: true },       // erwartet z. B.: { id, name, credits, attempt, grade, semester? }
-  showSemester: { type: Boolean, default: true }, // wenn false → Semester-Zeile wird ausgeblendet
+  module: { type: Object, required: true },
+  showSemester: { type: Boolean, default: true },
+  basePath: { type: String, default: '/student' },
 })
 
 const router = useRouter()
 
 // Navigiert zur Detailseite des Moduls (per ID)
 function openModule() {
-  router.push(`/student/module/${props.module.id}`)
+  router.push(`${props.basePath}/module/${props.module.id}`)
 }
 </script>
 
@@ -40,7 +41,7 @@ function openModule() {
     <div class="module-right" :class="{ done: module.grade !== null && module.grade !== undefined }">
       <div class="check" aria-hidden="true">✓</div>
 
-      <!-- Note wird mit Komma angezeigt; falls keine Note vorhanden → Strich -->
+      <!-- Note wird mit Komma angezeigt; falls keine Note vorhanden -> Strich -->
       <div class="grade">
         {{ module.grade !== null && module.grade !== undefined ? String(module.grade).replace('.', ',') : '—' }}
       </div>
@@ -84,8 +85,8 @@ function openModule() {
   font-weight: 500;
   font-size: 13px;
   color: rgba(0,0,0,0.55);
-  flex-wrap: nowrap;      /* не переносим */
-  overflow: hidden;       /* лишнее прячем */
+  flex-wrap: nowrap;
+  overflow: hidden;
   white-space: nowrap;    
 }
 
@@ -102,7 +103,7 @@ function openModule() {
   justify-content: center;   
   gap: 8px;                  
   border-radius: 11px;
-padding-top: 12px;  
+  padding-top: 12px;  
 }
 
 .check{
@@ -116,7 +117,7 @@ padding-top: 12px;
   font-weight: 700;
   color: #ffffff;
   line-height: 1;
-  
+
 }
 
 .grade{

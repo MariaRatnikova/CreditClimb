@@ -12,6 +12,9 @@ import BafoegSearchStudentsView from '@/views/bafoeg/BafoegSearchStudentsView.vu
 import BafoegStudentInfoView from '@/views/bafoeg/BafoegStudentInfoView.vue'
 import BafoegHomeView from '@/views/bafoeg/BafoegHomeView.vue'
 import BafoegSettingsView from '@/views/bafoeg/BafoegSettingsView.vue'
+import BafoegSemesterOverviewView from '@/views/bafoeg/BafoegSemesterOverviewView.vue'
+import BafoegModuleInfoView from '@/views/bafoeg/BafoegModuleInfoView.vue'
+
 
 //Student
 import StudentHomeView from '@/views/student/StudentHomeView.vue'
@@ -41,15 +44,15 @@ const router = createRouter({
     { path: '/bafoeg/home', component: BafoegHomeView, meta: { role: 'bafoeg' } },
     { path: '/bafoeg/settings', component: BafoegSettingsView, meta: { role: 'bafoeg' } },
     { path: '/bafoeg/student/:id', name: 'bafoeg-student', component: BafoegStudentInfoView, props: true, meta: { role: 'bafoeg' } },
+    { path: '/bafoeg/student/:id/modules', name: 'bafoeg-semester-overview', component: BafoegSemesterOverviewView, meta: { role: 'bafoeg' } },
+    { path: '/bafoeg/module/:id', name: 'bafoeg-module-info', component: BafoegModuleInfoView, meta: { role: 'bafoeg' } },
 
     //student
     { path: '/student/home', component: StudentHomeView, meta: { role: 'student' } },
     { path: '/student/search', component: StudentSearchStudentsView, meta: { role: 'student' } },
     { path: '/student/settings', component: StudentSettingsView, meta: { role: 'student' } },
     { path: '/student/semester/:semesterId', name: 'student-semester-overview', component: () => import('@/views/student/SemesterOverview.vue'), },
-    {
-      path: '/student/module/:id', name: 'StudentModuleInfo', component: () => import('@/views/student/ModuleInfoView.vue'), props: true,
-    }
+    { path: '/student/module/:id', name: 'StudentModuleInfo', component: () => import('@/views/student/ModuleInfoView.vue'), props: true,}
   ],
 })
 
