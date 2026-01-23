@@ -1,4 +1,3 @@
-
 // Aktuelles Semester (Mock)
 export const APP_DEFAULTS = {
     currentSemester: 5,
@@ -7,101 +6,65 @@ export const APP_DEFAULTS = {
 }
 
 export const semestersData = [
-
     {
         semester: 1,
         title: "1st Semester",
         totalCreditsPlanned: 30,
         modules: [
-            { id: "S1-M1", name: "Introduction to Programming", attempt: 1, grade: 2.3, credits: 2, professor: "Prof. Anna Keller", examType: "Written exam" },
-            { id: "S1-M2", name: "Discrete Mathematics", attempt: 1, grade: 2.0, credits: 4, professor: "Prof. Martin Vogel", examType: "Written exam" },
-
-
-            { id: "S1-M3", name: "Computer Systems Fundamentals", attempt: 1, grade: null, credits: 3, professor: "Prof. Lena Schubert", examType: "Written exam" },
-
-            { id: "S1-M4", name: "Web Technologies Basics", attempt: 1, grade: 1.7, credits: 5, professor: "Prof. Daniel Weiss", examType: "Project" },
-
-
-            { id: "S1-M5", name: "Linear Algebra for Computing", attempt: 1, grade: null, credits: 5, professor: "Prof. Sofia Brandt", examType: "Written exam" },
-
-            { id: "S1-M6", name: "Study Skills & Scientific Writing", attempt: 1, grade: 1.3, credits: 3, professor: "Prof. Julia Hartmann", examType: "Portfolio" },
+            { id: "S1-M1", name: "Programmierung I", attempt: 1, grade: 2.3, credits: 5, professor: "Prof. Anna Keller", examType: "Written exam" },
+            { id: "S1-M2", name: "Mathematik I", attempt: 1, grade: 2.0, credits: 7, professor: "Prof. Martin Vogel", examType: "Written exam" },
+            { id: "S1-M3", name: "Grundlagen der Informatik I", attempt: 1, grade: null, credits: 5, professor: "Prof. Lena Schubert", examType: "Written exam" },
+            { id: "S1-M4", name: "Betriebssysteme I", attempt: 1, grade: 1.7, credits: 5, professor: "Prof. Daniel Weiss", examType: "Project" },
+            { id: "S1-M5", name: "Elektrotechnik für Informatiker", attempt: 1, grade: null, credits: 5, professor: "Prof. Sofia Brandt", examType: "Written exam" },
+            { id: "S1-M6", name: "Englisch B2 I", attempt: 1, grade: 1.3, credits: 3, professor: "Prof. Julia Hartmann", examType: "Portfolio" },
         ],
     },
-
     {
         semester: 2,
         title: "2nd Semester",
         totalCreditsPlanned: 30,
         modules: [
-            { id: "S2-M1", name: "Object-Oriented Programming", attempt: 1, grade: 2.0, credits: 6, professor: "Prof. Anna Keller", examType: "Project + oral exam" },
-            { id: "S2-M2", name: "Data Structures & Algorithms I", attempt: 1, grade: 2.3, credits: 6, professor: "Prof. Simon Krüger", examType: "Written exam" },
-            { id: "S2-M3", name: "Database Fundamentals", attempt: 1, grade: 2.7, credits: 5, professor: "Prof. Miriam Lange", examType: "Written exam" },
-
-
-            { id: "S2-M4", name: "Computer Networks Basics", attempt: 1, grade: null, credits: 5, professor: "Prof. Jonas Richter", examType: "Written exam" },
-
-            { id: "S2-M5", name: "Human-Computer Interaction Basics", attempt: 1, grade: 1.7, credits: 5, professor: "Prof. Nora Engel", examType: "Project" },
-
-
-            { id: "S2-M6", name: "Probability & Statistics for CS", attempt: 1, grade: null, credits: 3, professor: "Prof. Sofia Brandt", examType: "Written exam" },
+            { id: "S2-M1", name: "Programmierung II", attempt: 1, grade: 2.0, credits: 5, professor: "Prof. Anna Keller", examType: "Project + oral exam" },
+            { id: "S2-M2", name: "Theoretische Informatik", attempt: 1, grade: 2.3, credits: 5, professor: "Prof. Simon Krüger", examType: "Written exam" },
+            { id: "S2-M3", name: "Datenbanksysteme I", attempt: 1, grade: 2.7, credits: 5, professor: "Prof. Miriam Lange", examType: "Written exam" },
+            { id: "S2-M4", name: "Mathematik II", attempt: 1, grade: null, credits: 8, professor: "Prof. Jonas Richter", examType: "Written exam" },
+            { id: "S2-M5", name: "Informationssicherheit und Datenschutz", attempt: 1, grade: 1.7, credits: 5, professor: "Prof. Nora Engel", examType: "Project" },
+            { id: "S2-M6", name: "Englisch B2 II", attempt: 1, grade: null, credits: 3, professor: "Prof. Sofia Brandt", examType: "Written exam" },
         ],
     },
-
     {
         semester: 3,
         title: "3rd Semester",
         totalCreditsPlanned: 30,
         modules: [
-            { id: "S3-M1", name: "Operating Systems", attempt: 1, grade: 2.7, credits: 6, professor: "Prof. Tobias Neumann", examType: "Written exam" },
-
-
-            { id: "S3-M2", name: "Software Engineering Fundamentals", attempt: 1, grade: null, credits: 6, professor: "Prof. Claudia Stein", examType: "Project" },
-
-            { id: "S3-M3", name: "Data Structures & Algorithms II", attempt: 1, grade: 2.0, credits: 5, professor: "Prof. Simon Krüger", examType: "Written exam" },
-
-
-            { id: "S3-M4", name: "Computer Architecture", attempt: 1, grade: null, credits: 5, professor: "Prof. Felix Braun", examType: "Written exam" },
-
-            { id: "S3-M5", name: "UI Design & Prototyping", attempt: 1, grade: 1.7, credits: 5, professor: "Prof. Nora Engel", examType: "Portfolio" },
-            { id: "S3-M6", name: "IT Security Basics", attempt: 1, grade: 2.3, credits: 3, professor: "Prof. Erik Sommer", examType: "Written exam" },
+            { id: "S3-M1", name: "Rechnerarchitektur", attempt: 1, grade: 2.7, credits: 3, professor: "Prof. Tobias Neumann", examType: "Written exam" },
+            { id: "S3-M2", name: "Datenbanksysteme II", attempt: 1, grade: null, credits: 5, professor: "Prof. Claudia Stein", examType: "Project" },
+            { id: "S3-M3", name: "Compiler / Interpreter", attempt: 1, grade: 2.0, credits: 5, professor: "Prof. Simon Krüger", examType: "Written exam" },
+            { id: "S3-M4", name: "Informatikrecht", attempt: 1, grade: null, credits: 2, professor: "Prof. Felix Braun", examType: "Written exam" },
+            { id: "S3-M5", name: "Stochastik", attempt: 1, grade: 1.7, credits: 5, professor: "Prof. Nora Engel", examType: "Portfolio" },
+            { id: "S3-M6", name: "Rechnernetze/ Kommunikationssysteme", attempt: 1, grade: 2.3, credits: 5, professor: "Prof. Erik Sommer", examType: "Written exam" },
+            { id: "S3-M6", name: "Computergrafik I", attempt: 1, grade: 2.3, credits: 5, professor: "Prof. Erik Sommer", examType: "Written exam" },
         ],
     },
-
     {
         semester: 4,
         title: "4th Semester",
         totalCreditsPlanned: 30,
         modules: [
-            { id: "S4-M1", name: "Web Application Development", attempt: 1, grade: 2.0, credits: 6, professor: "Prof. Daniel Weiss", examType: "Project" },
-            { id: "S4-M2", name: "Advanced Databases", attempt: 1, grade: 2.7, credits: 6, professor: "Prof. Miriam Lange", examType: "Written exam" },
-
-
-            { id: "S4-M3", name: "Computer Networks & Protocols", attempt: 1, grade: null, credits: 2, professor: "Prof. Jonas Richter", examType: "Written exam" },
-
-            { id: "S4-M4", name: "Mobile App Development", attempt: 1, grade: 1.7, credits: 5, professor: "Prof. Claudia Stein", examType: "Project" },
-
-
-            { id: "S4-M5", name: "Computer Graphics Fundamentals", attempt: 1, grade: null, credits: 3, professor: "Prof. Petra König", examType: "Project + presentation" },
-
-
-            { id: "S4-M6", name: "Research Methods in Computing", attempt: 1, grade: null, credits: 3, professor: "Prof. Julia Hartmann", examType: "Portfolio" },
+            { id: "S4-M1", name: "Software Engineering I", attempt: 1, grade: 2.0, credits: 5, professor: "Prof. Daniel Weiss", examType: "Project" },
+            { id: "S4-M2", name: "Webprogrammierung", attempt: 1, grade: 2.7, credits: 5, professor: "Prof. Miriam Lange", examType: "Written exam" },
+            { id: "S4-M3", name: "Betriebssysteme II", attempt: 1, grade: null, credits: 5, professor: "Prof. Jonas Richter", examType: "Written exam" },
+            { id: "S4-M4", name: "Programmierung von Komponentenarchitekturen", attempt: 1, grade: 1.7, credits: 5, professor: "Prof. Claudia Stein", examType: "Project" },
+            { id: "S4-M5", name: "Künstliche Intelligenz", attempt: 1, grade: null, credits: 5, professor: "Prof. Petra König", examType: "Project + presentation" },
+            { id: "S4-M6", name: "Programmierung von Microcontrollern", attempt: 1, grade: null, credits: 5, professor: "Prof. Julia Hartmann", examType: "Portfolio" },
         ],
     },
-
     {
         semester: 5,
         title: "5th Semester",
         totalCreditsPlanned: 30,
-        // Module des 5. Semesters (noch ohne Noten; dafür Deadlines vorhanden)
         modules: [
-            {
-                id: "S5-M1",
-                name: "UX Research & Testing",
-                attempt: 1,
-                grade: null,
-                credits: 6,
-                professor: "Prof. Nora Engel",
-                examType: "Portfolio",
+            { id: "S5-M1", name: "Internettechnologien für zeitkritische Anwendungen", attempt: 1, grade: null, credits: 5, professor: "Prof. Nora Engel", examType: "Portfolio",
                 deadlines: [
                     { name: "Usability test plan submission", date: "2026-03-20" },
                     { name: "Final report upload", date: "2026-06-18" },
@@ -109,10 +72,10 @@ export const semestersData = [
             },
             {
                 id: "S5-M2",
-                name: "Frontend Engineering (Vue)",
+                name: "Programmierung von Benutzeroberflächen",
                 attempt: 1,
                 grade: null,
-                credits: 6,
+                credits: 5,
                 professor: "Prof. Daniel Weiss",
                 examType: "Project",
                 deadlines: [
@@ -122,7 +85,7 @@ export const semestersData = [
             },
             {
                 id: "S5-M3",
-                name: "Cloud Computing Basics",
+                name: "Neuroinformationsverarbeitung",
                 attempt: 1,
                 grade: null,
                 credits: 5,
@@ -135,7 +98,7 @@ export const semestersData = [
             },
             {
                 id: "S5-M4",
-                name: "Information Security ",
+                name: "Projektseminar",
                 attempt: 1,
                 grade: null,
                 credits: 5,
@@ -148,7 +111,7 @@ export const semestersData = [
             },
             {
                 id: "S5-M5",
-                name: "Interactive Media Systems",
+                name: "Angewandte Sensorik",
                 attempt: 1,
                 grade: null,
                 credits: 5,
@@ -161,10 +124,10 @@ export const semestersData = [
             },
             {
                 id: "S5-M6",
-                name: "Data Visualization",
+                name: "Software Engineering II",
                 attempt: 1,
                 grade: null,
-                credits: 3,
+                credits: 5,
                 professor: "Prof. Martin Vogel",
                 examType: "Project",
                 deadlines: [
@@ -174,66 +137,28 @@ export const semestersData = [
             },
         ],
     },
-
     {
         semester: 6,
         title: "6th Semester",
         totalCreditsPlanned: 30,
-        // Module des 6. Semesters (noch ohne Noten)
         modules: [
             {
                 id: "S6-M1",
-                name: "Internship / Practical Project",
+                name: "Praxisprojekt",
                 attempt: 1,
                 grade: null,
-                credits: 12,
+                credits: 18,
                 professor: "Prof. Claudia Stein",
                 examType: "Report + presentation",
             },
             {
                 id: "S6-M2",
-                name: "Bachelor Seminar",
+                name: "Bachelorarbeit",
                 attempt: 1,
                 grade: null,
-                credits: 5,
+                credits: 12,
                 professor: "Prof. Julia Hartmann",
                 examType: "Presentation",
-            },
-            {
-                id: "S6-M3",
-                name: "Advanced HCI (Multimodal Interaction)",
-                attempt: 1,
-                grade: null,
-                credits: 5,
-                professor: "Prof. Nora Engel",
-                examType: "Project",
-            },
-            {
-                id: "S6-M4",
-                name: "Software Architecture",
-                attempt: 1,
-                grade: null,
-                credits: 4,
-                professor: "Prof. Tobias Neumann",
-                examType: "Written exam",
-            },
-            {
-                id: "S6-M5",
-                name: "Data Engineering Basics",
-                attempt: 1,
-                grade: null,
-                credits: 4,
-                professor: "Prof. Miriam Lange",
-                examType: "Project",
-            },
-            {
-                id: "S6-M6",
-                name: "Elective: Game Development",
-                attempt: 1,
-                grade: null,
-                credits: 3,
-                professor: "Prof. Petra König",
-                examType: "Project",
             },
         ],
     },

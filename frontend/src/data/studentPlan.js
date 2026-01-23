@@ -3,10 +3,7 @@
 // Der Plan wird clientseitig im Browser in localStorage gespeichert,
 // damit man ihn ohne Backend „persistieren“ und später wieder laden kann.
 
-
 const STORAGE_KEY = 'creditclimb_student_plan'
-
-
 
 // Datenmodell / Idee:
 // - moduleId: eindeutige Modul-ID (muss mit den IDs in semestersData / universityPlan übereinstimmen)
@@ -33,7 +30,6 @@ export const DEFAULT_STUDENT_PLAN = {
         { moduleId: "S2-M4", scheduledSemester: 2 }, // grade null -> Not Completed (S2)
         { moduleId: "S2-M5", scheduledSemester: 2 },
 
-
         { moduleId: "S4-M3", scheduledSemester: 2 },
 
         // ===== Semester 3 =====
@@ -42,7 +38,7 @@ export const DEFAULT_STUDENT_PLAN = {
         { moduleId: "S3-M4", scheduledSemester: 3 }, // grade null -> Not Completed (S3)
         { moduleId: "S3-M5", scheduledSemester: 3 },
         { moduleId: "S3-M6", scheduledSemester: 3 },
-
+        { moduleId: "S3-M7", scheduledSemester: 3 },
 
         { moduleId: "S4-M6", scheduledSemester: 3 },
 
@@ -62,22 +58,13 @@ export const DEFAULT_STUDENT_PLAN = {
         { moduleId: "S5-M5", scheduledSemester: 5 },
         { moduleId: "S5-M6", scheduledSemester: 5 },
 
-
         { moduleId: "S1-M5", scheduledSemester: 5 },
 
         // ===== Semester 6 =====
         { moduleId: "S6-M1", scheduledSemester: 6 },
         { moduleId: "S6-M2", scheduledSemester: 6 },
-        { moduleId: "S6-M3", scheduledSemester: 6 },
-        { moduleId: "S6-M4", scheduledSemester: 6 },
-        { moduleId: "S6-M5", scheduledSemester: 6 },
-        { moduleId: "S6-M6", scheduledSemester: 6 },
     ],
 }
-
-
-
-
 
 // Speichert einen Plan in localStorage.
 // Dabei wird eine „sichere“ Version erzeugt:

@@ -3,10 +3,8 @@ import { mockStudents } from '@/data/mockStudents'
 import { semestersData } from '@/data/semestersData'
 
 /**
- * Demo-Store ohne Backend:
  * - seen: Student wurde geöffnet -> Punkt verschwindet
  * - approved: Antrag genehmigt -> "abgehakt"
- * - sortMode/newOnly bleiben beim Navigieren erhalten
  * - Module completion ist student-spezifisch (deterministisch über studentId)
  */
 
@@ -18,7 +16,6 @@ const base = mockStudents.slice(0, APPLICATION_COUNT).map((s, idx) => {
   return { ...s, requestedAt }
 })
 
-// UI state (persistiert in-memory über Navigation)
 const sortMode = ref('latest')
 const newOnly = ref(false)
 
@@ -104,7 +101,7 @@ function calcCredits(semesters) {
   return sum
 }
 
-// Cache damit wir nicht bei jeder View neu bauen
+// Cache nicht bei jeder View neu bauen
 const studentSemCache = new Map()
 
 function getStudentSemesters(studentId) {

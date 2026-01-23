@@ -35,30 +35,47 @@ function toggleNewOnly() {
   store.newOnly.value = !store.newOnly.value
   menuOpen.value = false
 }
+
+const sortItems = [
+  { title: 'Latest', value: 'latest' },
+  { title: 'A–Z', value: 'az' },
+  { title: 'New only', value: 'newOnly' },
+]
+
+const sortModel = computed({
+  get() {
+    if (store.newOnly.value) return 'newOnly'
+    return store.sortMode.value
+  },
+  set(v) {
+    if (v === 'newOnly') {
+      store.newOnly.value = true
+      store.sortMode.value = 'latest'
+    } else {
+      store.newOnly.value = false
+      store.sortMode.value = v
+    }
+  },
+})
+
 </script>
 
 <template>
-  <MobileShell base="/bafoeg">
+  <MobileShell base="/bafoeg" title="Applications">
     <div class="page">
       <div class="header-row">
-        <div class="title">Applications</div>
-
         <div class="sort">
-          <v-menu v-model="menuOpen" location="bottom end" :close-on-content-click="true">
-            <template #activator="{ props }">
-              <button class="sort-btn" type="button" v-bind="props">
-                sort <span class="chev">˅</span>
-              </button>
-            </template>
-            <v-card class="pa-2" style="min-width: 160px;">
-              <div class="menu-item" @click="setSort('az')">A-Z</div>
-              <div class="menu-item" @click="setSort('latest')">Latest</div>
-              <div class="menu-item" @click="toggleNewOnly()">
-                New Only
-                <span class="muted">{{ store.newOnly.value ? '(on)' : '(off)' }}</span>
-              </div>
-            </v-card>
-          </v-menu>
+          <v-select
+            v-model="sortModel"
+            :items="sortItems"
+            item-title="title"
+            item-value="value"
+            label="sort"
+            hide-details
+            density="comfortable"
+            class="mb-2"
+            style="min-width: max-content;"
+          />
         </div>
       </div>
 
@@ -97,7 +114,7 @@ function toggleNewOnly() {
 }
 
 .sort-btn{
-  border: none;
+
   background: transparent;
   font-weight: 700;
   cursor: pointer;

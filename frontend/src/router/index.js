@@ -52,7 +52,8 @@ const router = createRouter({
     { path: '/student/search', component: StudentSearchStudentsView, meta: { role: 'student' } },
     { path: '/student/settings', component: StudentSettingsView, meta: { role: 'student' } },
     { path: '/student/semester/:semesterId', name: 'student-semester-overview', component: () => import('@/views/student/SemesterOverview.vue'), },
-    { path: '/student/module/:id', name: 'StudentModuleInfo', component: () => import('@/views/student/ModuleInfoView.vue'), props: true,}
+    { path: '/student/module/:id', name: 'StudentModuleInfo', component: () => import('@/views/student/ModuleInfoView.vue'), props: true,},
+    { path: '/tutor/module/:id', name: 'tutor-module-info', component: () => import('@/views/tutor/TutorModuleInfoView.vue'), meta: { role: 'tutor' } },
   ],
 })
 
