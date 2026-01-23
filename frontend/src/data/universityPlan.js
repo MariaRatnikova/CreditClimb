@@ -10,7 +10,7 @@ export const universityPlan = [
                 name: "Programmierung I",
                 credits: 5,
                 plannedSemester: 1,
-                professor: "Prof. Anna Keller",
+                professor: "Prof. Beck",
                 examType: "Written exam",
             },
             {
@@ -18,7 +18,7 @@ export const universityPlan = [
                 name: "Mathematik I",
                 credits: 7,
                 plannedSemester: 1,
-                professor: "Prof. Martin Vogel",
+                professor: "Prof. Schwarzenberger",
                 examType: "Written exam",
             },
             {
@@ -26,7 +26,7 @@ export const universityPlan = [
                 name: "Grundlagen der Informatik I",
                 credits: 5,
                 plannedSemester: 1,
-                professor: "Prof. Lena Schubert",
+                professor: "Prof. Hollas",
                 examType: "Written exam",
             },
             {
@@ -34,7 +34,7 @@ export const universityPlan = [
                 name: "Betriebssysteme I",
                 credits: 5,
                 plannedSemester: 1,
-                professor: "Prof. Daniel Weiss",
+                professor: "Prof. Baumgartl",
                 examType: "Project",
             },
             {
@@ -42,7 +42,7 @@ export const universityPlan = [
                 name: "Elektrotechnik für Informatiker",
                 credits: 5,
                 plannedSemester: 1,
-                professor: "Prof. Sofia Brandt",
+                professor: "Prof. Engelbrecht",
                 examType: "Written exam",
             },
             {
@@ -50,7 +50,7 @@ export const universityPlan = [
                 name: "Englisch B2 I",
                 credits: 3,
                 plannedSemester: 1,
-                professor: "Prof. Julia Hartmann",
+                professor: "Prof. Wadencreme",
                 examType: "Portfolio",
             },
         ],
@@ -67,7 +67,7 @@ export const universityPlan = [
                 name: "Programmierung II",
                 credits: 5,
                 plannedSemester: 2,
-                professor: "Prof. Anna Keller",
+                professor: "Prof. Beck",
                 examType: "Project + oral exam",
             },
             {
@@ -75,7 +75,7 @@ export const universityPlan = [
                 name: "Theoretische Informatik",
                 credits: 5,
                 plannedSemester: 2,
-                professor: "Prof. Simon Krüger",
+                professor: "Prof. Hollas",
                 examType: "Written exam",
             },
             {
@@ -83,7 +83,7 @@ export const universityPlan = [
                 name: "Datenbanksysteme I",
                 credits: 5,
                 plannedSemester: 2,
-                professor: "Prof. Miriam Lange",
+                professor: "Prof. Toll",
                 examType: "Written exam",
             },
             {
@@ -91,7 +91,7 @@ export const universityPlan = [
                 name: "Mathematik II",
                 credits: 8,
                 plannedSemester: 2,
-                professor: "Prof. Jonas Richter",
+                professor: "Prof. Schwarzenberger",
                 examType: "Written exam",
             },
             {
@@ -99,7 +99,7 @@ export const universityPlan = [
                 name: "Informationssicherheit und Datenschutz",
                 credits: 5,
                 plannedSemester: 2,
-                professor: "Prof. Nora Engel",
+                professor: "Prof. Iffländer",
                 examType: "Project",
             },
             {
@@ -107,7 +107,7 @@ export const universityPlan = [
                 name: "Englisch B2 II",
                 credits: 3,
                 plannedSemester: 2,
-                professor: "Prof. Sofia Brandt",
+                professor: "Prof. Wadencreme",
                 examType: "Written exam",
             },
         ],
@@ -124,7 +124,7 @@ export const universityPlan = [
                 name: "Rechnerarchitektur",
                 credits: 3,
                 plannedSemester: 3,
-                professor: "Prof. Tobias Neumann",
+                professor: "Prof. Schönthier",
                 examType: "Written exam",
             },
             {
@@ -132,7 +132,7 @@ export const universityPlan = [
                 name: "Datenbanksysteme II",
                 credits: 5,
                 plannedSemester: 3,
-                professor: "Prof. Claudia Stein",
+                professor: "Prof. Toll",
                 examType: "Project",
             },
             {
@@ -140,7 +140,7 @@ export const universityPlan = [
                 name: "Compiler / Interpreter",
                 credits: 5,
                 plannedSemester: 3,
-                professor: "Prof. Simon Krüger",
+                professor: "Prof. Beck",
                 examType: "Written exam",
             },
             {
@@ -148,7 +148,7 @@ export const universityPlan = [
                 name: "Informatikrecht",
                 credits: 2,
                 plannedSemester: 3,
-                professor: "Prof. Felix Braun",
+                professor: "Prof. Westfeld",
                 examType: "Written exam",
             },
             {
@@ -156,7 +156,7 @@ export const universityPlan = [
                 name: "Stochastik",
                 credits: 5,
                 plannedSemester: 3,
-                professor: "Prof. Nora Engel",
+                professor: "Prof. Schwarzenberger",
                 examType: "Portfolio",
             },
             {
@@ -164,7 +164,7 @@ export const universityPlan = [
                 name: "Rechnernetze/ Kommunikationssysteme",
                 credits: 5,
                 plannedSemester: 3,
-                professor: "Prof. Erik Sommer",
+                professor: "Prof. Vogt",
                 examType: "Written exam",
             },
             {
@@ -172,7 +172,7 @@ export const universityPlan = [
                 name: "Computergrafik I",
                 credits: 5,
                 plannedSemester: 3,
-                professor: "Prof. Erik Sommer",
+                professor: "Prof. Block-Berlitz",
                 examType: "Written exam",
             },
         ],
@@ -189,7 +189,7 @@ export const universityPlan = [
                 name: "Software Engineering I",
                 credits: 5,
                 plannedSemester: 4,
-                professor: "Prof. Daniel Weiss",
+                professor: "Prof. Anke",
                 examType: "Project",
             },
             {
@@ -197,7 +197,7 @@ export const universityPlan = [
                 name: "Webprogrammierung",
                 credits: 5,
                 plannedSemester: 4,
-                professor: "Prof. Miriam Lange",
+                professor: "Prof. Vogt",
                 examType: "Written exam",
             },
             {
@@ -205,7 +205,7 @@ export const universityPlan = [
                 name: "Betriebssysteme II",
                 credits: 5,
                 plannedSemester: 4,
-                professor: "Prof. Jonas Richter",
+                professor: "Prof. Baumgartl",
                 examType: "Written exam",
             },
             {
@@ -213,7 +213,7 @@ export const universityPlan = [
                 name: "Programmierung von Komponentenarchitekturen",
                 credits: 5,
                 plannedSemester: 4,
-                professor: "Prof. Claudia Stein",
+                professor: "Prof. Neugebauer",
                 examType: "Project",
             },
             {
@@ -221,15 +221,15 @@ export const universityPlan = [
                 name: "Künstliche Intelligenz",
                 credits: 5,
                 plannedSemester: 4,
-                professor: "Prof. Petra König",
-                examType: "Project + presentation",
+                professor: "Prof. Hollas",
+                examType: "Written exam",
             },
             {
                 id: "S4-M6",
                 name: "Programmierung von Microcontrollern",
                 credits: 5,
                 plannedSemester: 4,
-                professor: "Prof. Julia Hartmann",
+                professor: "Prof. Vogt",
                 examType: "Portfolio",
             },
         ],
@@ -246,7 +246,7 @@ export const universityPlan = [
                 name: "Internettechnologien für zeitkritische Anwendungen",
                 credits: 5,
                 plannedSemester: 5,
-                professor: "Prof. Nora Engel",
+                professor: "Prof. Vogt",
                 examType: "Portfolio",
                 deadlines: [
                     { name: "Usability test plan submission", date: "2026-03-20" },
@@ -258,7 +258,7 @@ export const universityPlan = [
                 name: "Programmierung von Benutzeroberflächen",
                 credits: 5,
                 plannedSemester: 5,
-                professor: "Prof. Daniel Weiss",
+                professor: "Prof. Freitag",
                 examType: "Project",
                 deadlines: [
                     { name: "Midterm prototype", date: "2026-04-10" },
@@ -270,7 +270,7 @@ export const universityPlan = [
                 name: "Neuroinformationsverarbeitung",
                 credits: 5,
                 plannedSemester: 5,
-                professor: "Prof. Tobias Neumann",
+                professor: "Prof. Böhme",
                 examType: "Written exam",
                 deadlines: [
                     { name: "Lab 1 submission", date: "2026-03-28" },
@@ -282,7 +282,7 @@ export const universityPlan = [
                 name: "Projektseminar",
                 credits: 5,
                 plannedSemester: 5,
-                professor: "Prof. Erik Sommer",
+                professor: "Prof. ?",
                 examType: "Written exam",
                 deadlines: [
                     { name: "Threat model worksheet", date: "2026-04-05" },
@@ -294,7 +294,7 @@ export const universityPlan = [
                 name: "Angewandte Sensorik",
                 credits: 5,
                 plannedSemester: 5,
-                professor: "Prof. Petra König",
+                professor: "Prof. Rennekamp",
                 examType: "Project + presentation",
                 deadlines: [
                     { name: "Concept pitch", date: "2026-03-15" },
@@ -306,7 +306,7 @@ export const universityPlan = [
                 name: "Software Engineering II",
                 credits: 5,
                 plannedSemester: 5,
-                professor: "Prof. Martin Vogel",
+                professor: "Prof. Anke",
                 examType: "Project",
                 deadlines: [
                     { name: "Dataset selection", date: "2026-03-12" },
@@ -327,7 +327,7 @@ export const universityPlan = [
                 name: "Praxisprojekt",
                 credits: 18,
                 plannedSemester: 6,
-                professor: "Prof. Claudia Stein",
+                professor: "Prof. ?",
                 examType: "Report + presentation",
             },
             {
@@ -335,8 +335,8 @@ export const universityPlan = [
                 name: "Bachelorarbeit",
                 credits: 12,
                 plannedSemester: 6,
-                professor: "Prof. Julia Hartmann",
-                examType: "Presentation",
+                professor: "Prof. ?",
+                examType: "Project",
             },
         ],
     },
