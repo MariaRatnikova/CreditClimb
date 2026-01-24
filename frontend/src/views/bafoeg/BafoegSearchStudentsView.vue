@@ -1,5 +1,3 @@
-<!-- src/views/student/BafoegPerformanceProofView.vue -->
-<!-- src/views/student/BafoegPerformanceProofView.vue -->
 <script setup>
 import MobileShell from '@/components/layout/MobileShell.vue'
 import { computed, reactive, ref, onBeforeUnmount } from 'vue'
@@ -220,7 +218,7 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <MobileShell base="/student">
+  <MobileShell base="/bafoeg">
     <div class="page">
       <!-- ====== REVIEWED (====== -->
       <div v-if="stage === 3" class="reviewed-screen">

@@ -523,12 +523,6 @@ const chartPointObjects = computed(() => ectsChart.value.points)
   background: rgba(0, 0, 0, 0.12);
   margin: 6px auto 14px;
 }
-.sheet-title{
-  margin: 8px 0 12px;
-  font-weight:700;
-  font-size: 32px;
-  text-align: center;
-}
 .modules{
   display:flex;
   flex-direction: column;
