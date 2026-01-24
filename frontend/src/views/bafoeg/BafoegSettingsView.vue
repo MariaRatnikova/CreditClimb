@@ -3,7 +3,7 @@ import { ref, onMounted, watch } from 'vue'
 import MobileShell from '@/components/layout/MobileShell.vue'
 
 const LS_PREFIX = 'cc_settings_bafoeg_'
-const lsKey = (k) => ${LS_PREFIX}${k}
+const lsKey = (k) => `${LS_PREFIX}${String(k)}`
 
 const notifications = ref(true)
 const defaultSort = ref('latest')
