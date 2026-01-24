@@ -1,289 +1,606 @@
 <script setup>
-import { computed, reactive, ref, watch } from 'vue'
-import { useRouter } from 'vue-router'
 import MobileShell from '@/components/layout/MobileShell.vue'
-import StudentListItem from '@/components/common/StudentListItem.vue'
-import { mockStudents } from '@/data/mockStudents'
+import { computed, reactive, ref, onBeforeUnmount } from 'vue'
 
-const router = useRouter()
+/**
+ * Key für localStorage, um den aktuellen Formularzustand (Draft) zu speichern.
+ * v1 = Versionierung, falls du später das Datenmodell änderst.
+ */
+const STORAGE_KEY = 'achieva.bafoegPerformanceProof.v1'
 
-const query = ref('')
-const filters = reactive({
-  university: null,
-  year: null,
-  faculty: null,
-  program: null,
-  group: null,
+/**
+ * Länder-Liste für den Select (Geburtsland / Place of birth).
+ */
+const countries = [
+  'Germany',
+  'Latvia',
+  'China',
+  'Poland',
+  'Czech Republic',
+  'France',
+  'Italy',
+  'Spain',
+  'Other',
+]
+
+/**
+ * Reaktives Formularmodell.
+ * reactive() ist sinnvoll, weil wir mehrere Felder in einem Objekt halten.
+ */
+const form = reactive({
+  lastName: '',
+  firstName: '',
+  dob: '',
+  placeOfBirth: '',
+  institutionName: '',
+  institutionAddress: '',
+  fieldOfStudy: '',
 })
 
-// Dropdown-Items (Mock)
-const universities = ['HTW Dresden', 'TU Dresden']
-const years = ['2021', '2022', '2023', '2024']
-const faculties = ['Mathematics and Computer Science', 'Engineering']
-const programs = ['Media Informatics', 'Informatics']
-const groups = ['A', 'B', 'C', 'D']
+/**
+ * Nur der Dateiname (UI), nicht der File-Inhalt.
+ */
+const selectedFileName = ref('')
 
-/** Pagination state */
-const page = ref(1)
-const pageSize = ref(6)
+/**
+ * UI-State / Stage:
+ * 0 = Formular
+ * 1 = Upload/Loading
+ * 2 = Sent (gesendet)
+ * 3 = Reviewed (bearbeitet / reviewed)
+ */
+const stage = ref(0)
 
-const filtered = computed(() => {
-  const q = query.value.trim().toLowerCase()
+/**
+ * Timer-IDs, damit wir setTimeout sauber abbrechen können
+ * (z. B. beim Reset oder beim Unmount).
+ */
+let loadingTimerId = null
+let reviewedTimerId = null
 
-  return mockStudents.filter((s) => {
-    const matchQuery = !q || s.name.toLowerCase().includes(q) || s.id.includes(q)
-    // Filter aktuell UI-only
-    return matchQuery
-  })
-})
-
-watch(
-  () => [query.value, filters.university, filters.year, filters.faculty, filters.program, filters.group],
-  () => {
-    page.value = 1
-  }
-)
-
-const pageCount = computed(() => Math.max(1, Math.ceil(filtered.value.length / pageSize.value)))
-
-const pagedStudents = computed(() => {
-  const start = (page.value - 1) * pageSize.value
-  return filtered.value.slice(start, start + pageSize.value)
-})
-
-function setPage(newPage) {
-  const safe = Math.min(Math.max(Number(newPage), 1), pageCount.value)
-  page.value = safe
-}
-
-/** Jump-to-page input: opened byclicking "…" */
-const isPageInput = ref(false)
-const pageInput = ref('')
-
-function toggleJumpInput() {
-  // Toggle: erneuter Klick schließt
-  if (isPageInput.value) {
-    isPageInput.value = false
-    return
-  }
-  pageInput.value = String(page.value)
-  isPageInput.value = true
-}
-
-function confirmPageInput() {
-  const raw = String(pageInput.value ?? '').trim()
-  if (raw.length === 0) {
-    isPageInput.value = false
-    return
-  }
-
-  const parsed = parseInt(raw, 10)
-  if (!Number.isNaN(parsed)) setPage(parsed)
-
-  isPageInput.value = false
-}
-
-function cancelJumpInput() {
-  isPageInput.value = false
+/**
+ * Hilfsfunktion: stoppt alle laufenden Timer, damit nichts "nachträglich" feuert.
+ */
+function clearTimers() {
+  if (loadingTimerId) clearTimeout(loadingTimerId)
+  if (reviewedTimerId) clearTimeout(reviewedTimerId)
+  loadingTimerId = null
+  reviewedTimerId = null
 }
 
 /**
- * Paging model (stable):
- * <  a  b  c  …  last  >
+ * Speichert den aktuellen Zustand (Form + Dateiname + Stage) als Draft in localStorage.
  */
-const pagingModel = computed(() => {
-  const last = pageCount.value
-  const current = page.value
+function saveDraft() {
+  const payload = {
+    form: { ...form },
+    selectedFileName: selectedFileName.value,
+    stage: stage.value,
+    updatedAt: new Date().toISOString(),
+  }
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(payload))
+}
 
-  if (last <= 4) {
-    return {
-      trio: Array.from({ length: last }, (_, i) => i + 1),
-      showEllipsis: false,
-      showLast: false,
-      last,
-    }
+/**
+ * Wenn beim Reload bereits stage 1 oder 2 gespeichert war,
+ * müssen die Timer wieder "fortgesetzt" werden, damit die UI weiterläuft.
+ */
+function scheduleTimersIfNeeded() {
+  // Vorher sicherheitshalber alte Timer entfernen
+  clearTimers()
+
+  if (stage.value === 1) {
+    // Stage 1: nach 2s -> Stage 2 (Sent)
+    loadingTimerId = setTimeout(() => {
+      stage.value = 2
+      saveDraft()
+
+      // danach nach 5s -> Stage 3 (Reviewed)
+      reviewedTimerId = setTimeout(() => {
+        stage.value = 3
+        saveDraft()
+      }, 5000)
+    }, 2000)
   }
 
-  let a = current - 1
-  let b = current
-  let c = current + 1
-
-  // Start case
-  if (current <= 1) {
-    a = 1
-    b = 2
-    c = 3
+  if (stage.value === 2) {
+    // Stage 2: nach 5s -> Stage 3 (Reviewed)
+    reviewedTimerId = setTimeout(() => {
+      stage.value = 3
+      saveDraft()
+    }, 5000)
   }
+}
 
-  // End cases (last and last-1)
-  if (current >= last - 1) {
-    a = last - 2
-    b = last - 1
-    c = last
-  }
+/**
+ * Lädt Draft aus localStorage und setzt:
+ * - form Felder
+ * - Dateiname
+ * - stage
+ * Danach: Timer ggf. wieder anwerfen (Fortsetzung).
+ */
+function loadDraft() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY)
+    if (!raw) return
 
-  // Safety clamp
-  a = Math.max(1, a)
-  b = Math.max(2, b)
-  c = Math.min(last, c)
+    const parsed = JSON.parse(raw)
 
-  const trio = [a, b, c]
-  const showEllipsis = c < last - 1
-  const showLast = c < last
+    Object.assign(form, parsed?.form ?? {})
+    selectedFileName.value = parsed?.selectedFileName ?? ''
 
-  return { trio, showEllipsis, showLast, last }
+    const savedStage = Number(parsed?.stage ?? 0)
+    stage.value = Number.isFinite(savedStage) ? savedStage : 0
+
+    // Falls stage schon in "loading/sent" ist: Timer neu setzen
+    scheduleTimersIfNeeded()
+  } catch (_) {}
+}
+
+// Draft beim Start direkt laden
+loadDraft()
+
+/**
+ * Wird aufgerufen, wenn User eine PDF auswählt.
+ * Wir speichern nur den Namen für die Anzeige.
+ */
+function onFileChange(e) {
+  const file = e.target.files?.[0]
+  selectedFileName.value = file ? file.name : ''
+}
+
+/**
+ * Validierung: ob das Formular die Pflichtfelder enthält.
+ * (Minimalcheck: nicht leer)
+ */
+const canSend = computed(() => {
+  return (
+    form.lastName.trim() &&
+    form.firstName.trim() &&
+    form.dob.trim() &&
+    form.institutionName.trim() &&
+    form.fieldOfStudy.trim()
+  )
 })
 
-function isActivePage(p) {
-  return p === page.value
+/**
+ * "Send"-Aktion:
+ * - prüft Pflichtfelder
+ * - startet Loading (stage=1)
+ * - simuliert Upload: nach 2s -> stage=2
+ * - danach nach 5s -> stage=3
+ * Alles wird zwischendurch gespeichert, damit Reload möglich ist.
+ */
+function send() {
+  if (!canSend.value) {
+    alert(
+      'Please fill in required fields (Name, First name, Date of birth, Institution, Field of study).'
+    )
+    return
+  }
+
+  clearTimers()
+
+  // Upload starten
+  stage.value = 1
+  saveDraft()
+
+  // Simulation: Upload fertig -> Sent
+  loadingTimerId = setTimeout(() => {
+    stage.value = 2
+    saveDraft()
+
+    // Simulation: Office reviewed -> Reviewed
+    reviewedTimerId = setTimeout(() => {
+      stage.value = 3
+      saveDraft()
+    }, 5000)
+  }, 2000)
 }
 
-function openStudent(student) {
-  router.push(`/bafoeg/student/${student.id}`)
+/**
+ * Zurück zum Formular, ohne Daten zu löschen.
+ * (Stage zurücksetzen, Timer stoppen, Draft speichern.)
+ */
+function resetToForm() {
+  clearTimers()
+  stage.value = 0
+  saveDraft()
 }
+
+/**
+ * Cleanup: Beim Unmount (View verlassen) Timer stoppen,
+ * damit keine State-Updates auf einer unmounted Komponente passieren.
+ */
+onBeforeUnmount(() => {
+  clearTimers()
+})
 </script>
 
 <template>
-  <MobileShell base="/bafoeg" title="Search Student">
-    <v-text-field
-      v-model="query"
-      placeholder="Student ID or Name"
-      append-inner-icon="mdi-magnify"
-      hide-details
-    />
+  <MobileShell base="/bafoeg">
+    <div class="page">
+      <!-- ====== REVIEWED (====== -->
+      <div v-if="stage === 3" class="reviewed-screen">
+        <h1 class="title">
+          Bafög<br />
+          Performance Proof
+        </h1>
 
-    <div class="section-title mt-4 mb-2">Advanced search</div>
+        
+         <img src="@/assets/mail2.png" alt="" class="mail"> 
 
-    <v-select v-model="filters.university" :items="universities" label="University" hide-details class="mb-2" />
-    <v-select v-model="filters.year" :items="years" label="Year of study" hide-details class="mb-2" />
-    <v-select v-model="filters.faculty" :items="faculties" label="Faculty" hide-details class="mb-2" />
-    <v-select v-model="filters.program" :items="programs" label="Study program" hide-details class="mb-2" />
-    <v-select v-model="filters.group" :items="groups" label="Group number" hide-details class="mb-4" />
+        <p class="reviewed-text">
+          Your form has been reviewed and
+          completed by the examination office.
+          Download the PDF <strong>document</strong> using
+          the link below.
+        </p>
 
-    <div v-if="filtered.length === 0" class="text-body-2">
-      No students found.
-    </div>
+        <a class="download-link" href="#" @click.prevent>Download PDF</a>
 
-    <StudentListItem
-      v-for="s in pagedStudents"
-      :key="s.id"
-      :student="s"
-      @select="openStudent"
-    />
+        <button class="btn send-office" type="button">Send to BAföG office</button>
 
-    <!-- Pagination: < a b c … last > -->
-    <div class="pagination-row mt-3">
-      <v-btn
-        icon="mdi-chevron-left"
-        size="middle"
-        variant="text"
-        class="pager-btn"
-        :disabled="page === 1"
-        @click="setPage(page - 1)"
-      />
+        
+        <button class="back-to-form" type="button" @click="resetToForm">Back to form</button>
+      </div>
 
-      <v-btn
-        v-for="p in pagingModel.trio"
-        :key="p"
-        size="middle"
-        class="page-btn"
-        :variant="isActivePage(p) ? 'flat' : 'text'"
-        :color="isActivePage(p) ? 'primary' : undefined"
-        @click="setPage(p)"
-      >
-        {{ p }}
-      </v-btn>
+     
+      <div v-else-if="stage === 2" class="sent-screen">
+        <h1 class="title">
+          Bafög<br />
+          Performance Proof
+        </h1>
 
-      <template v-if="pagingModel.showEllipsis">
-        <v-text-field
-          v-if="isPageInput"
-          v-model="pageInput"
-          inputmode="numeric"
-          density="compact"
-          variant="outlined"
-          hide-details
-          class="page-jump-input"
-          @blur="confirmPageInput"
-          @keyup.enter="confirmPageInput"
-          @keyup.esc="cancelJumpInput"
-        />
-        <v-btn
-          v-else
-          size="middle"
-          variant="text"
-          class="page-ellipsis"
-          @click="toggleJumpInput"
-        >
-          …
-        </v-btn>
-      </template>
+       
+      <img class="mail" src="@/assets/mail1.png" alt="mail bild">
 
-      <v-btn
-        v-if="pagingModel.showLast"
-        size="middle"
-        class="page-btn"
-        :variant="isActivePage(pagingModel.last) ? 'flat' : 'text'"
-        :color="isActivePage(pagingModel.last) ? 'primary' : undefined"
-        @click="setPage(pagingModel.last)"
-      >
-        {{ pagingModel.last }}
-      </v-btn>
+        <p class="sent-text">
+          Your form has been sent to the<br />
+          <strong>examination office</strong> of your<br />
+          university.
+        </p>
+      </div>
 
-      <v-btn
-        icon="mdi-chevron-right"
-        size="middle"
-        variant="text"
-        class="pager-btn"
-        :disabled="page === pageCount"
-        @click="setPage(page + 1)"
-      />
+      <!-- ====== LOADING ====== -->
+      <div v-else-if="stage === 1" class="loading-screen">
+        <h1 class="title">
+          Bafög<br />
+          Performance Proof
+        </h1>
+
+        <div class="spinner" aria-hidden="true"></div>
+        <p class="loading-text">Uploading…</p>
+      </div>
+
+      <!-- ====== FORM ====== -->
+      <div v-else>
+        <h1 class="title">
+          Bafög<br />
+          Performance Proof
+        </h1>
+
+        <div class="form">
+          <label class="field">
+            <div class="label">Name</div>
+            <input v-model="form.lastName" class="input" type="text" placeholder="Name" />
+          </label>
+
+          <label class="field">
+            <div class="label">First Name</div>
+            <input v-model="form.firstName" class="input" type="text" placeholder="First name" />
+          </label>
+
+          <label class="field">
+            <div class="label">Date of birth</div>
+            <input v-model="form.dob" class="input" type="text" placeholder="dd.mm.yyyy" />
+          </label>
+
+          <label class="field">
+            <div class="label">Place of birth</div>
+            <select v-model="form.placeOfBirth" class="input select">
+              <option value="" disabled>Country</option>
+              <option v-for="c in countries" :key="c" :value="c">{{ c }}</option>
+            </select>
+          </label>
+
+          <label class="field">
+            <div class="label">Name of the educational institution</div>
+            <input
+              v-model="form.institutionName"
+              class="input"
+              type="text"
+              placeholder="Name"
+            />
+          </label>
+
+          <label class="field">
+            <div class="label">Address of the educational institution</div>
+            <input
+              v-model="form.institutionAddress"
+              class="input"
+              type="text"
+              placeholder="Name"
+            />
+          </label>
+
+          <label class="field">
+            <div class="label">
+              This performance certificate refers to:<br />
+              Field of study / Department
+            </div>
+            <input
+              v-model="form.fieldOfStudy"
+              class="input"
+              type="text"
+              placeholder="Field of study"
+            />
+          </label>
+
+          <label class="field">
+            <div class="label">Select Transcript of grades (PDF)</div>
+
+            <div class="file-row">
+              <input class="file-input" type="file" accept="application/pdf" @change="onFileChange" />
+              <div class="file-fake input">
+                <span class="file-name" :class="{ placeholder: !selectedFileName }">
+                  {{ selectedFileName || 'Select file' }}
+                </span>
+                <span class="chev">▾</span>
+              </div>
+            </div>
+          </label>
+
+          <div class="actions">
+            <button class="btn ghost" type="button" @click="saveDraft">Save</button>
+
+            <button
+              class="btn primary"
+              type="button"
+              :disabled="!canSend || stage !== 0"
+              :class="{ disabled: !canSend || stage !== 0 }"
+              @click="send"
+            >
+              Send
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
   </MobileShell>
 </template>
 
 <style scoped>
-  .section-title {
-    text-align: center;
-    font-weight: 700;
-    font-size: 1.25rem;
-    color: rgba(0, 0, 0, 0.75);
-  }
+:deep(.top-bar),
+:deep(.top-bar .v-app-bar),
+:deep(.top-bar .v-app-bar__content),
+:deep(.top-bar .v-toolbar__content) {
+  background: transparent !important;
+  box-shadow: none !important;
+  border: none !important;
+}
 
-  /* Pagination: stable in screen */
-  .pagination-row {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    flex-wrap: nowrap;
-    white-space: nowrap;
-  }
+.page {
+  background: #ffffff;
+  min-height: 100%;
+  padding: 0px 18px 110px;
+  position: relative;
+}
 
-  .pager-btn {
-    min-width: 32px;
-  }
+.title {
+  text-align: center;
+ font-size: 24px;
+  font-weight: 700;
+  line-height: 1.1;
+  margin: 0px 0 18px;
+}
 
-  .page-btn {
-    min-width: 32px;
-    padding: 5px 12px;
-  }
+/* ===== FORM ===== */
+.form {
+  margin-top: 6px;
+}
 
-  .page-ellipsis {
-    min-width: 40px;
-    padding: 0 px;
-  }
+.field {
+  display: block;
+  margin: 14px 0;
+}
 
-  .page-jump-input {
-    width: 56px;
-  }
+.label {
+  font-size: 16px;
+  font-weight: 500;
+  opacity: 0.9;
+  margin-bottom: 8px;
+}
 
-  /* remove number spinners */
-  .page-jump-input :deep(input) {
-    -moz-appearance: textfield;
+.input {
+  width: 100%;
+  height: 44px;
+  border-radius: 10px;
+  border: 2px solid rgba(0, 0, 0, 0.12);
+  background: #ffffff;
+  padding: 0 14px;
+  font-size: 16px;
+  outline: none;
+}
+
+.select {
+  appearance: none;
+  background-image:
+    linear-gradient(45deg, transparent 50%, rgba(0, 0, 0, 0.55) 50%),
+    linear-gradient(135deg, rgba(0, 0, 0, 0.55) 50%, transparent 50%);
+  background-position: calc(100% - 18px) 18px, calc(100% - 12px) 18px;
+  background-size: 6px 6px, 6px 6px;
+  background-repeat: no-repeat;
+}
+
+.file-row {
+  position: relative;
+}
+
+.file-input {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.file-fake {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-right: 12px;
+}
+
+.file-name.placeholder {
+  opacity: 0.45;
+}
+
+.chev {
+  opacity: 0.55;
+  font-size: 18px;
+}
+
+.actions {
+  margin-top: 22px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  padding: 0 10px;
+}
+
+.btn {
+  height: 56px;
+  border-radius: 10px;
+  border: none;
+  font-size: 18px;
+  font-weight: 800;
+  cursor: pointer;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.18);
+}
+
+.btn.ghost {
+  background: #ffffff;
+  color: rgba(86, 126, 168, 1);
+  border: 2px solid rgba(86, 126, 168, 0.25);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.14);
+  
+}
+
+.btn.ghost:active{
+  background:  #F1F7FF;;
+  transform: translateY(1px);
+}
+.btn.primary:active{
+  background: #2A5481;
+  transform: translateY(1px);
+}
+.btn.primary {
+  background: #567ea8;
+  color: #ffffff;
+}
+
+.btn.primary.disabled {
+  opacity: 0.55;
+}
+
+/* ===== LOADING ===== */
+.loading-screen {
+  padding-top: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.spinner {
+  margin-top: 46px;
+  width: 56px;
+  height: 56px;
+  border-radius: 999px;
+  border: 6px solid rgba(86, 126, 168, 0.2);
+  border-top-color: rgba(86, 126, 168, 1);
+  animation: spin 0.9s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
   }
-  .page-jump-input :deep(input::-webkit-outer-spin-button),
-  .page-jump-input :deep(input::-webkit-inner-spin-button) {
-    -webkit-appearance: none;
-    margin: 0;
-  }
+}
+
+.loading-text {
+  margin-top: 16px;
+  font-size: 18px;
+  opacity: 0.75;
+}
+
+/* ===== SENT ===== */
+.sent-screen {
+  padding-top: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.mail{
+  margin-top: 20px;
+}
+.sent-text {
+  text-align: center;
+  font-size: 20px;
+  line-height: 1.35;
+  margin-top: 22px;
+  font-weight: 500;
+}
+
+/* ===== REVIEWED ===== */
+.reviewed-screen {
+  padding-top: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.reviewed-text {
+  margin-top: 10px;
+  text-align: center;
+  font-size: 20px;
+  line-height: 1.35;
+}
+
+.download-link {
+  margin-top: 14px;
+  font-size: 20px;
+  text-decoration: underline;
+  color: #2a5481;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.btn.send-office {
+  margin-top: 22px;
+  width: 260px;
+  height: 56px;
+  border-radius: 10px;
+  border: none;
+  background: #567ea8;
+  color: #fff;
+  font-size: 18px;
+  font-weight: 800;
+  cursor: pointer;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.18);
+}
+
+.back-to-form {
+  margin-top: 18px;
+  border: none;
+  background: transparent;
+  font-weight: 800;
+  cursor: pointer;
+  color:#2a5481;
+}
+.btn.send-office:active{
+  background: #2A5481;
+  transform: translateY(1px);
+}
+
+
 </style>

@@ -16,12 +16,11 @@ const filters = reactive({
   group: null,
 })
 
-// Dropdown-Items (Mock)
-const universities = ['HTW Dresden', 'TU Dresden']
-const years = ['2021', '2022', '2023', '2024']
-const faculties = ['Mathematics and Computer Science', 'Engineering']
-const programs = ['Media Informatics', 'Informatics']
-const groups = ['A', 'B', 'C', 'D']
+const universities = computed(() => [...new Set(mockStudents.map(s => s.university))])
+const years = computed(() => [...new Set(mockStudents.map(s => s.year))])
+const faculties = computed(() => [...new Set(mockStudents.map(s => s.faculty))])
+const programs = computed(() => [...new Set(mockStudents.map(s => s.program))])
+const groups = computed(() => [...new Set(mockStudents.map(s => s.group))])
 
 /** Pagination state */
 const page = ref(1)
@@ -31,11 +30,35 @@ const filtered = computed(() => {
   const q = query.value.trim().toLowerCase()
 
   return mockStudents.filter((s) => {
-    const matchQuery = !q || s.name.toLowerCase().includes(q) || s.id.includes(q)
-    // Filter aktuell UI-only
-    return matchQuery
+    const matchQuery =
+      !q || s.name.toLowerCase().includes(q) || String(s.id).includes(q)
+
+    const matchUniversity =
+      !filters.university || s.university === filters.university
+
+    const matchYear =
+      !filters.year || String(s.year) === String(filters.year)
+
+    const matchFaculty =
+      !filters.faculty || s.faculty === filters.faculty
+
+    const matchProgram =
+      !filters.program || s.program === filters.program
+
+    const matchGroup =
+      !filters.group || s.group === filters.group
+
+    return (
+      matchQuery &&
+      matchUniversity &&
+      matchYear &&
+      matchFaculty &&
+      matchProgram &&
+      matchGroup
+    )
   })
 })
+
 
 watch(
   () => [query.value, filters.university, filters.year, filters.faculty, filters.program, filters.group],
@@ -139,12 +162,12 @@ function isActivePage(p) {
 }
 
 function openStudent(student) {
-  router.push(`/bafoeg/student/${student.id}`)
+  router.push(`/tutor/student/${student.id}`)
 }
 </script>
 
 <template>
-  <MobileShell base="/bafoeg" title="Search Student">
+  <MobileShell base="/tutor" title="Search Student">
     <v-text-field
       v-model="query"
       placeholder="Student ID or Name"

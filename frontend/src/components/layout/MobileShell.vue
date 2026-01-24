@@ -131,20 +131,20 @@ function isActive(tab) {
     justify-content: center;
     gap: 4px;
     padding: 8px 0;
-    background: rgba(var(--v-theme-surface));
+    background: rgb(var(--v-theme-surface));
   }
 
   /* Icon */
   .nav-icon {
     font-size: 40px;
-    color: rgba(var(--v-theme-secondary));
+    color: rgb(var(--v-theme-secondary));
   }
 
   /* Text */
   .nav-label {
     font-size: 0.78rem;
     font-weight: 700;
-    color: rgba(var(--v-theme-secondary));
+    color: rgb(var(--v-theme-secondary));
   }
 
   /* Aktiver Tab: nur Icon/Text blau */
