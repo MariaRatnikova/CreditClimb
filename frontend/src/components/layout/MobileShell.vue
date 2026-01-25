@@ -35,6 +35,18 @@ const activeTab = computed(() => {
 function isActive(tab) {
   return activeTab.value === tab
 }
+
+const isStudent = computed(() => props.base === '/student')
+
+const searchLabel = computed(() =>
+  isStudent.value ? 'Proof' : 'Search'
+)
+
+const searchIcon = computed(() =>
+  isStudent.value
+    ? 'mdi-file-document-check-outline'
+    : 'mdi-magnify'
+)
 </script>
 
 <template>
@@ -74,8 +86,8 @@ function isActive(tab) {
         :class="{ active: isActive('search') }"
         variant="text"
       >
-        <v-icon icon="mdi-magnify" class="nav-icon" />
-        <span class="nav-label">Search</span>
+        <v-icon :icon="searchIcon" class="nav-icon" />
+        <span class="nav-label">{{ searchLabel }}</span>
       </v-btn>
 
       <v-btn
