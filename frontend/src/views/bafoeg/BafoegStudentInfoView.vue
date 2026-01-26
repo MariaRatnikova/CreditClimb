@@ -130,7 +130,7 @@ function approve() {
 
 .name{
   text-align: center;
-  font-size: 18px;
+  font-size: 20px;
   font-weight: 800;
   margin-bottom: 14px;
 }
@@ -142,8 +142,8 @@ function approve() {
   font-size: 13px;
 }
 
-.k{ font-weight: 700; opacity: 0.85; }
-.v{ opacity: 0.85; }
+.k{ font-size: 17px; font-weight: 700; opacity: 0.85; }
+.v{ font-size: 17px; opacity: 0.85; }
 
 .link{
   margin-top: 14px;

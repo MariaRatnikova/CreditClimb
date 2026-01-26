@@ -1,5 +1,4 @@
-<!-- src/views/student/BafoegPerformanceProofView.vue -->
-<!-- src/views/student/BafoegPerformanceProofView.vue -->
+
 <script setup>
 import MobileShell from '@/components/layout/MobileShell.vue'
 import { computed, reactive, ref, onBeforeUnmount } from 'vue'
