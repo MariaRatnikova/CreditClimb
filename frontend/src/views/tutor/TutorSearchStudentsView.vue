@@ -198,7 +198,7 @@ function openStudent(student) {
     <div class="pagination-row mt-3">
       <v-btn
         icon="mdi-chevron-left"
-        size="small"
+        size="big"
         variant="text"
         class="pager-btn"
         :disabled="page === 1"
@@ -254,7 +254,7 @@ function openStudent(student) {
 
       <v-btn
         icon="mdi-chevron-right"
-        size="small"
+        size="big"
         variant="text"
         class="pager-btn"
         :disabled="page === pageCount"
@@ -283,11 +283,12 @@ function openStudent(student) {
   }
 
   .pager-btn {
-    min-width: 32px;
+    min-width: 50px;
+    min-height: 50px;
   }
 
   .page-btn {
-    min-width: 32px;
+    min-width: 40px;
     padding: 0 8px;
   }
 
